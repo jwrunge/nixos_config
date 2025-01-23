@@ -33,6 +33,8 @@
     helix-gpt
     ranger
     lazygit
+    git-credential-manager
+    chromium
   ];
 
   # hyprland
@@ -54,7 +56,7 @@
       };
       bind = [
           "$mod, T, exec, ghostty"
-          "$mod, F, exec, firefox"
+          "$mod, B, exec, chromium"
           ", Print, exec, grimblast copy area"
         ]        
         ++ (
@@ -83,6 +85,11 @@
     enable = true;
     userName = "jwrunge";
     userEmail = "jwrunge@gmail.com";
+    extraConfig.credential = {
+      helper = "manager";
+      "https://github.com".username = "jwrunge";
+      credentialStore = "cache";
+    };
   };
 
   # helix config
