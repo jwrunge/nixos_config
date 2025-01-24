@@ -3,7 +3,20 @@
   home.username = "jwr";
   home.homeDirectory = "/home/jwr";
 
+  fonts.fontconfig.enable = true;
+
   home.packages = with pkgs; [
+    #fonts
+    fira-code
+    fira-code-symbols
+    font-awesome
+    liberation_ttf
+    mplus-outline-fonts.githubRelease
+    nerdfonts
+    noto-fonts
+    noto-fonts-emoji
+    proggyfonts
+    
     neofetch
     rancher
     
@@ -37,6 +50,8 @@
     chromium
   ];
 
+  programs.wofi.enable = true;
+
   # hyprland
   wayland.windowManager.hyprland = {
     enable = true;
@@ -58,6 +73,7 @@
       bind = [
           "$mod, T, exec, ghostty"
           "$mod, B, exec, chromium"
+          "$mod, SPACE, exec, wofi --show=drun"
           ", Print, exec, grimblast copy area"
         ]        
         ++ (
@@ -77,27 +93,34 @@
     enable = true;
     systemd.enable = true;
 
+    style = ''
+      * {
+        font-family: "Arimo Nerd Font", "Font Awesome 6 Free";
+      }
+    '';
+
     settings = {
       mainBar = {
         layer = "top";
         spacing = 5;
         modules-left = ["hyprland/workspaces"];
         modules-center = ["hyprland/window"];
-        modules-right = ["cpu" "memory" "network" "bluetooth" "pulseaudio" "clock#date" "clock#time"];
+        modules-right = ["cpu" "memory" "network" "pulseaudio" "clock"];
 
         "hyprland/workspaces" = {
           disable-scroll = true;
-          active-only = true;
+          active-only = false;
           warp-on-scroll = false;
         };
 
         clock = {
-          format = "{:%I:%M %p - %a, %d $b $Y}";
+          format = "{:%m/%d/%y %I:%M}";
         };
         
         cpu = {
           format = "{icon} {usage}%";
           interval = 2;
+          format-icons = [""];
 
           states = {
             critical = 90;
@@ -107,6 +130,7 @@
         memory = {
           format = "{icon} {percentage}%";
           interval = 2;
+          format-icons = [""];
 
           states = {
             critical = 80;
@@ -115,9 +139,9 @@
 
         network = {
           format-ethernet = "{icon} {bandwidthDownBits}";
-          format-disconnected = "{icon}";
           interval = 5;
           tooltip = false;
+          format-icons = [""];
         };
 
         pulseaudio = {
@@ -128,6 +152,7 @@
           nospacing = 1;
           on-click = "pavucontrol";
           tooltip = false;
+          format-icons = [ "" "󰂰" ];
         };
       };
     };
