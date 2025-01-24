@@ -48,6 +48,10 @@
     ];
   };
 
+  fonts.packages = with pkgs; [
+    nerdfonts
+  ];
+
   environment.systemPackages = with pkgs; [
     git
     vim 

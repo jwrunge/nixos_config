@@ -40,6 +40,7 @@
   # hyprland
   wayland.windowManager.hyprland = {
     enable = true;
+    systemd.enable = true;
 
     settings = {
       "$mod" = "SUPER";
@@ -69,6 +70,66 @@
           )
         9)
       );
+    };
+  };
+
+  programs.waybar = {
+    enable = true;
+    systemd.enable = true;
+
+    settings = {
+      mainBar = {
+        layer = "top";
+        spacing = 5;
+        modules-left = ["hyprland/workspaces"];
+        modules-center = ["hyprland/window"];
+        modules-right = ["cpu" "memory" "network" "bluetooth" "pulseaudio" "clock#date" "clock#time"];
+
+        "hyprland/workspaces" = {
+          disable-scroll = true;
+          active-only = true;
+          warp-on-scroll = false;
+        };
+
+        clock = {
+          format = "{:%I:%M %p - %a, %d $b $Y}";
+        };
+        
+        cpu = {
+          format = "{icon} {usage}%";
+          interval = 2;
+
+          states = {
+            critical = 90;
+          };
+        };
+        
+        memory = {
+          format = "{icon} {percentage}%";
+          interval = 2;
+
+          states = {
+            critical = 80;
+          };
+        };
+
+        network = {
+          format-ethernet = "{icon} {bandwidthDownBits}";
+          format-disconnected = "{icon}";
+          interval = 5;
+          tooltip = false;
+        };
+
+        pulseaudio = {
+          scroll-step = 5;
+          max-volume = 150;
+          format = "{icon} {volume}%";
+          format-bluetooth = "{icon} {volume}%";
+          nospacing = 1;
+          on-click = "pavucontrol";
+          tooltip = false;
+        };
+      };
     };
   };
 
