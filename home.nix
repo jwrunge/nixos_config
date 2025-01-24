@@ -48,6 +48,10 @@
     lazygit
     git-credential-manager
     chromium
+
+    # helix tools
+    nixpkgs-fmt
+    nil
   ];
 
   programs.wofi.enable = true;
@@ -183,6 +187,27 @@
   programs.helix = {
     enable = true;
     defaultEditor = true;
+    languages = {
+      language-server = {
+        typescript-language-server = with pkgs.nodePackages; {
+          command = "${typescript-language-server}/bin/typescript-language-server";
+          args = ["--stdio" "--tsserver-path=${typescript}/lib/node_modules/typescript/lib"];
+        };
+
+        nil = with pkgs; {
+          command = "${pkgs.system}.default}/bin/nil";
+          config.nil = {
+            formatting.command = [ "${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt" ];
+            nix.flake.autoEvalInputs = true;
+          };
+        };
+      };
+
+      language = [{
+        name = "nix";
+        formatter = { command = "nixpkgs-fmt"; };
+      }];
+    };
   };
   
   # nushell
