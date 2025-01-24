@@ -74,6 +74,7 @@
           "$mod, T, exec, ghostty"
           "$mod, B, exec, chromium"
           "$mod, SPACE, exec, wofi --show=drun"
+          "$mod, DELETE, exec, hyprctl dispatch exit"
           ", Print, exec, grimblast copy area"
         ]        
         ++ (
