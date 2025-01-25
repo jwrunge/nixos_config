@@ -69,7 +69,7 @@
         border_size = 2;
         resize_on_border = true;
         hover_icon_on_border = true;
-        "col.active_border" = lib.mkForce "rgba(33ccffee) rgba(00ff99ee) 45deg";
+        "col.active_border" = lib.mkForce "rgba(da42f5ee) rgba(426ff5ee) 45deg";
       };
       decoration = {
         rounding = 5;
@@ -167,7 +167,7 @@
     enable = true;
     settings = {
       background = "black";
-      "background-opacity" = 0.8;
+      "background-opacity" = 0.7;
     };
   };
   
@@ -187,6 +187,16 @@
   programs.helix = {
     enable = true;
     defaultEditor = true;
+    settings = {
+      editor = {
+        line-number = "relative";
+        lsp.display-inlay-hints = true;
+        bufferline = "multiple";
+        cursor-shape.normal = "bar";
+        cursor-shape.insert= "bar";
+        cursor-shape.select = "bar";
+      };
+    };
     languages = {
       language-server = {
         typescript-language-server = with pkgs.nodePackages; {
@@ -209,10 +219,31 @@
       }];
     };
   };
+
+  programs.zellij.enable = true;
   
   # nushell
   programs.nushell = {
     enable = true;
+
+    configFile.text = ''
+      # zellij
+      def start_zellij [] {
+        if 'ZELLIJ' not-in ($env | columns) {
+          if 'ZELLIJ_AUTO_ATTACH' in ($env | columns) and $env.ZELLIJ_AUTO_ATTACH == 'true' {
+            zellij attach -c
+          } else {
+            zellij
+          }
+
+          if 'ZELLIJ_AUTO_EXIT' in ($env | columns) and $env.ZELLIJ_AUTO_EXIT == 'true' {
+            exit
+          }
+        }
+      }
+
+      start_zellij
+    '';
 
     extraConfig = ''
       $env.config = {
@@ -225,7 +256,7 @@
           
           external: {
             enable: true 	#false prevents nushell from looking into $env.PATH
-            max_results: 100	
+            # max_results: 100	
           }
         }
       }
@@ -240,5 +271,7 @@
 
   home.stateVersion = "24.11";
 
-  programs.home-manager.enable = true;
+  programs.home-manager = {
+    enable = true;
+  };
 }
