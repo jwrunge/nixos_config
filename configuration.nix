@@ -59,7 +59,8 @@
 
   stylix = {
     enable = true;
-    image = ./wallpaper.png;
+    image = ./wallpaper3.png;
+    polarity = "dark";
     base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
     homeManagerIntegration.followSystem = true;
     
