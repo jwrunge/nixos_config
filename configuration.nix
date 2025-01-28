@@ -16,8 +16,32 @@
 
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
+  hardware.nvidia = {
+    modesetting.enable = true;
+    open = false;
+    nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    
+    prime = {
+      sync.enable = true;
+
+      #integrated
+      amdgpuBusId = "PCI:10:00:0";
+
+      # dedicated
+      nvidiaBusId = "PCI:1:00:0";
+    };
+    # package = config.boot.kernelPackages.nvidiaPackages.beta;
+  };
+
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+    
+  };
 
   services.blueman.enable = true;
+  services.xserver.videoDrivers = ["nvidia"];
 
   # Enable flakes
   nix.settings.experimental-features = [ "nix-command" "flakes"];
@@ -52,7 +76,13 @@
     git
     vim 
     wget
+    mangohud
+    protonup
   ];
+
+  environment.sessionVariables = {
+    STEAM_EXTRA_COMPAT_TOOLS_PATHS = "/home/user/.steam/root/compatibilitytools.d";
+  };
 
   programs.firefox.enable = true;
   programs.hyprland.enable = true;
@@ -80,9 +110,12 @@
 
   programs.steam = {
     enable = true;
+    gamescopeSession.enable = true;
     remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
   };
+
+  programs.gamemode.enable = true;
 
   networking.firewall.allowedTCPPorts = [ 22 ];
 

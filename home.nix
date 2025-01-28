@@ -64,12 +64,12 @@
     settings = {
       "$mod" = "SUPER";
       general = {
-        gaps_in = 2;
-        gaps_out = 2;
+        gaps_in = 0;
+        gaps_out = 0;
         border_size = 2;
         resize_on_border = true;
         hover_icon_on_border = true;
-        "col.active_border" = lib.mkForce "rgba(da42f5ee) rgba(426ff5ee) 45deg";
+        "col.active_border" = lib.mkForce "rgba(da42f5ee) rgba(4299f5ee) 45deg";
       };
       decoration = {
         rounding = 5;

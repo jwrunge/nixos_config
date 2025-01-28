@@ -14,6 +14,8 @@
     };
 
     hyprland.url = "github:hyprwm/Hyprland";
+
+    helix.url = "github:helix-editor/helix";
   };
 
   outputs = { self, nixpkgs, stylix, home-manager, ... } @inputs: {
