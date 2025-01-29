@@ -20,10 +20,12 @@
     modesetting.enable = true;
     open = false;
     nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    package = config.boot.kernelPackages.nvidiaPackages.beta;
+    nvidiaPersistenced = true;
     
     prime = {
-      sync.enable = true;
+      offload.enable = true;
+      allowExternalGpu = true;
 
       #integrated
       amdgpuBusId = "PCI:10:00:0";
