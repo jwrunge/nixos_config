@@ -54,6 +54,7 @@
     nil
 
     godot_4
+    logiops
   ];
 
   programs.wofi.enable = true;
@@ -195,6 +196,7 @@
     enable = true;
     defaultEditor = true;
     settings = {
+      theme = lib.mkForce "withTransparency";
       editor = {
         line-number = "relative";
         lsp.display-inlay-hints = true;
@@ -202,6 +204,12 @@
         cursor-shape.normal = "bar";
         cursor-shape.insert= "bar";
         cursor-shape.select = "bar";
+      };
+    };
+    themes = {
+      withTransparency = {
+        inherits = "stylix";
+        "ui.background" = "{ bg = \"#00000000\" }";
       };
     };
     languages = {
