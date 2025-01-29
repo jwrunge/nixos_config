@@ -64,8 +64,8 @@
     settings = {
       "$mod" = "SUPER";
       general = {
-        gaps_in = 0;
-        gaps_out = 0;
+        gaps_in = 4;
+        gaps_out = 4;
         border_size = 2;
         resize_on_border = true;
         hover_icon_on_border = true;
@@ -74,6 +74,9 @@
       decoration = {
         rounding = 5;
       };
+      workspace = [
+        "w[1], gapsout:0, gapsin:0, bordersize:0, decorate:false"
+      ];
       bind = [
           "$mod, T, exec, ghostty"
           "$mod, B, exec, chromium"
