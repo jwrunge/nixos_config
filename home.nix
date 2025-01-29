@@ -52,6 +52,8 @@
     # helix tools
     nixpkgs-fmt
     nil
+
+    godot_4
   ];
 
   programs.wofi.enable = true;
@@ -81,6 +83,8 @@
           "$mod, T, exec, ghostty"
           "$mod, B, exec, chromium"
           "$mod, SPACE, exec, wofi --show=drun"
+          "$mod, Q, killactive"
+          "$mod, TAB, cyclenext"
           "$mod, DELETE, exec, hyprctl dispatch exit"
           ", Print, exec, grimblast copy area"
         ]        
