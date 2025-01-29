@@ -16,31 +16,31 @@
     noto-fonts
     noto-fonts-emoji
     proggyfonts
-    
+
     neofetch
     rancher
-    
+
     # archives
     zip
     xz
     unzip
 
     # utils
-    ripgrep	# recursive regex search
-    jq		# JSON processor
-    fzf		# fuzzy finder
+    ripgrep # recursive regex search
+    jq # JSON processor
+    fzf # fuzzy finder
     nix-output-monitor # `nom` - replace `nix` with more logging
-    htop	# better btop
-    iotop	# io monitoring
-    iftop	# net monitoring
+    htop # better btop
+    iotop # io monitoring
+    iftop # net monitoring
     sysstat
     ethtool
-    pciutils	# lspci
-    usbutils	# lsusb
+    pciutils # lspci
+    usbutils # lsusb
 
     # networking
-    mtr 	# net diagnostics
-    nmap	# network discovery and security
+    mtr # net diagnostics
+    nmap # network discovery and security
 
     # tools
     helix-gpt
@@ -52,6 +52,7 @@
     # helix tools
     nixpkgs-fmt
     nil
+    nixd
 
     godot_4
     logiops
@@ -81,23 +82,24 @@
         "w[1], gapsout:0, gapsin:0, bordersize:0, decorate:false"
       ];
       bind = [
-          "$mod, T, exec, ghostty"
-          "$mod, B, exec, chromium"
-          "$mod, SPACE, exec, wofi --show=drun"
-          "$mod, Q, killactive"
-          "$mod, TAB, cyclenext"
-          "$mod, DELETE, exec, hyprctl dispatch exit"
-          ", Print, exec, grimblast copy area"
-        ]        
-        ++ (
-          builtins.concatLists (builtins.genList (i:
+        "$mod, T, exec, ghostty"
+        "$mod, B, exec, chromium"
+        "$mod, SPACE, exec, wofi --show=drun"
+        "$mod, Q, killactive"
+        "$mod, TAB, cyclenext"
+        "$mod, DELETE, exec, hyprctl dispatch exit"
+        ", Print, exec, grimblast copy area"
+      ]
+      ++ (
+        builtins.concatLists (builtins.genList
+          (i:
             let ws = i + 1;
             in [
               "$mod, code:1${toString i}, workspace, ${toString ws}"
               "$mod SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
             ]
           )
-        9)
+          9)
       );
     };
   };
@@ -116,9 +118,9 @@
       mainBar = {
         layer = "top";
         spacing = 5;
-        modules-left = ["hyprland/workspaces"];
-        modules-center = ["hyprland/window"];
-        modules-right = ["cpu" "memory" "network" "pulseaudio" "clock"];
+        modules-left = [ "hyprland/workspaces" ];
+        modules-center = [ "hyprland/window" ];
+        modules-right = [ "cpu" "memory" "network" "pulseaudio" "clock" ];
 
         "hyprland/workspaces" = {
           disable-scroll = true;
@@ -129,21 +131,21 @@
         clock = {
           format = "{:%m/%d/%y %I:%M}";
         };
-        
+
         cpu = {
           format = "{icon} {usage}%";
           interval = 2;
-          format-icons = [""];
+          format-icons = [ "" ];
 
           states = {
             critical = 90;
           };
         };
-        
+
         memory = {
           format = "{icon} {percentage}%";
           interval = 2;
-          format-icons = [""];
+          format-icons = [ "" ];
 
           states = {
             critical = 80;
@@ -154,7 +156,7 @@
           format-ethernet = "{icon} {bandwidthDownBits}";
           interval = 5;
           tooltip = false;
-          format-icons = [""];
+          format-icons = [ "" ];
         };
 
         pulseaudio = {
@@ -178,7 +180,7 @@
       "background-opacity" = 0.7;
     };
   };
-  
+
   # git conifg
   programs.git = {
     enable = true;
@@ -202,7 +204,7 @@
         lsp.display-inlay-hints = true;
         bufferline = "multiple";
         cursor-shape.normal = "bar";
-        cursor-shape.insert= "bar";
+        cursor-shape.insert = "bar";
         cursor-shape.select = "bar";
       };
     };
@@ -216,7 +218,7 @@
       language-server = {
         typescript-language-server = with pkgs.nodePackages; {
           command = "${typescript-language-server}/bin/typescript-language-server";
-          args = ["--stdio" "--tsserver-path=${typescript}/lib/node_modules/typescript/lib"];
+          args = [ "--stdio" "--tsserver-path=${typescript}/lib/node_modules/typescript/lib" ];
         };
 
         nil = with pkgs; {
@@ -230,13 +232,17 @@
 
       language = [{
         name = "nix";
+        auto-format = true;
+        file-types = [ "nix" ];
+        indent = { tab-width = 2; unit = " "; };
         formatter = { command = "nixpkgs-fmt"; };
+        language-servers = [ "nil" ];
       }];
     };
   };
 
   programs.zellij.enable = true;
-  
+
   # nushell
   programs.nushell = {
     enable = true;
@@ -279,7 +285,7 @@
       $env.PATH = ($env.PATH | split row (char esep) | prepend /home/jwr/.apps | append /usr/bin/env)
     '';
   };
-  
+
   #carapace.enable = true;
   #carapace.enableNushellIntegration = true;
 
