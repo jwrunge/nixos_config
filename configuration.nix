@@ -2,11 +2,12 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, inputs, nixpkgs, ... }:
+{ config, pkgs, ... }:
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
 
@@ -22,7 +23,7 @@
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.beta;
     nvidiaPersistenced = true;
-    
+
     prime = {
       offload.enable = true;
       allowExternalGpu = true;
@@ -39,24 +40,24 @@
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
-    
+
   };
 
   services.blueman.enable = true;
-  services.xserver.videoDrivers = ["nvidia"];
+  services.xserver.videoDrivers = [ "nvidia" ];
 
   # Enable flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes"];
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Networking
   networking.hostName = "nixos"; # Define your hostname.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
   # Set your time zone.
   time.timeZone = "America/Chicago";
 
   nixpkgs.config.allowUnfree = true;
-  
+
   services.pipewire = {
     enable = true;
     pulse.enable = true;
@@ -76,7 +77,7 @@
 
   environment.systemPackages = with pkgs; [
     git
-    vim 
+    vim
     wget
     mangohud
     protonup
@@ -97,7 +98,7 @@
     homeManagerIntegration.followSystem = true;
   };
 
- # Enable the OpenSSH daemon.
+  # Enable the OpenSSH daemon.
   services.openssh = {
     enable = true;
     settings = {

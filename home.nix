@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ pkgs, lib, ... }:
 {
   home.username = "jwr";
   home.homeDirectory = "/home/jwr";
@@ -221,8 +221,8 @@
           args = [ "--stdio" "--tsserver-path=${typescript}/lib/node_modules/typescript/lib" ];
         };
 
-        nil = with pkgs; {
-          command = "${pkgs.system}.default}/bin/nil";
+        nil = {
+          command = "nil";
           config.nil = {
             formatting.command = [ "${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt" ];
             nix.flake.autoEvalInputs = true;
