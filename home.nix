@@ -142,6 +142,13 @@
           };
         };
 
+        "custom/gpu-usage" = {
+          exec = "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits";
+          format = "{icon} {}%";
+          interval = 2;
+          format-icons = [ "󱎓" ];
+        };
+
         memory = {
           format = "{icon} {percentage}%";
           interval = 2;
@@ -151,6 +158,12 @@
             critical = 80;
           };
         };
+
+        disk =
+          {
+            format = "{icon} {used}/{free}";
+            format-icons = [ "" ];
+          };
 
         network = {
           format-ethernet = "{icon} {bandwidthDownBits}";

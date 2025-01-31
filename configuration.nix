@@ -45,6 +45,23 @@
 
   services.blueman.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
+  services.sunshine =
+    {
+      enable = true;
+      autoStart = true;
+      capSysAdmin = true;
+      openFirewall = true;
+    };
+
+  # security.wrappers.sunshine = {
+  #   owner = "root";
+  #   group = "root";
+  #   capabilities = "cap_sys_admin+p";
+  #   source = "${pkgs.sunshine}/bin/sunshine";
+  # };
+
+  services.avahi.publish.enable = true;
+  services.avahi.publish.userServices = true;
 
   # Enable flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -56,7 +73,11 @@
     networkmanager.enable = true;
     firewall = {
       enable = true;
-      allowedTCPPorts = [ 22 ];
+      allowedTCPPorts = [ 47984 47989 47990 48010 ];
+      allowedUDPPortRanges = [
+        { from = 47998; to = 48000; }
+        { from = 8000; to = 8010; }
+      ];
     };
   };
 
@@ -88,6 +109,7 @@
     wget
     mangohud
     protonup
+    nftables
   ];
 
   environment.sessionVariables = {
