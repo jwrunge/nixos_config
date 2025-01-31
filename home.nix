@@ -56,6 +56,14 @@
 
     godot_4
     logiops
+
+    # js
+    nodejs_23
+    typescript
+    typescript-language-server
+    vscode-langservers-extracted
+    emmet-ls
+    prettierd
   ];
 
   programs.wofi.enable = true;
@@ -234,6 +242,33 @@
           args = [ "--stdio" "--tsserver-path=${typescript}/lib/node_modules/typescript/lib" ];
         };
 
+        eslint = {
+          command = "vscode-eslint-language-server";
+          args = [ "--stdio" ];
+          config = {
+            codeActionsOnSave = {
+              mode = "all";
+              "source.fixAll.eslint" = true;
+            };
+            format = {
+              enable = true;
+            };
+            nodePath = "";
+            quiet = false;
+            rulesCustomizations = [ ];
+            run = "onType";
+            validate = "on";
+            experimental = { };
+            problems = {
+              shortenToSingleLine = false;
+            };
+            codeAction = {
+              disableRuleComment = { enable = true; location = "separateLine"; };
+              showDocumentation = { enable = false; };
+            };
+          };
+        };
+
         nil = {
           command = "nil";
           config.nil = {
@@ -243,6 +278,7 @@
         };
       };
 
+
       language = [{
         name = "nix";
         auto-format = true;
@@ -250,7 +286,16 @@
         indent = { tab-width = 2; unit = " "; };
         formatter = { command = "nixpkgs-fmt"; };
         language-servers = [ "nil" ];
-      }];
+      }
+        {
+          name = "typescript";
+          language-servers = [ "typescript-language-server" "eslint" "emmet-ls" ];
+          formatter = {
+            command = "prettierd";
+            args = [ "." "--write" ];
+          };
+          auto-format = true;
+        }];
     };
   };
 
