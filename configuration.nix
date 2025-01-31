@@ -50,8 +50,15 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Networking
-  networking.hostName = "nixos"; # Define your hostname.
-  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
+  networking = {
+    hostName = "nixos";
+    nftables.enable = true;
+    networkmanager.enable = true;
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [ 22 ];
+    };
+  };
 
   # Set your time zone.
   time.timeZone = "America/Chicago";
@@ -102,10 +109,6 @@
   services.openssh = {
     enable = true;
     settings = {
-      X11Forwarding = true;
-      AllowUsers = [ "jwr" ];
-      UseDns = true;
-      PermitRootLogin = "no"; #disable root login
       PasswordAuthentication = true; #disable password login
     };
     openFirewall = true;
@@ -119,8 +122,6 @@
   };
 
   programs.gamemode.enable = true;
-
-  networking.firewall.allowedTCPPorts = [ 22 ];
 
   # Do NOT change this value
   system.stateVersion = "24.11"; # Did you read the comment?
