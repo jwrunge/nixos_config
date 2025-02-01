@@ -131,7 +131,7 @@
         spacing = 5;
         modules-left = [ "hyprland/workspaces" ];
         modules-center = [ "hyprland/window" ];
-        modules-right = [ "cpu" "custom/gpu-usage" "memory" "disk" "network" "pulseaudio" "clock" ];
+        modules-right = [ "cpu" "custom/gpu-usage" "memory" "network" "pulseaudio" "clock" ];
 
         "hyprland/workspaces" = {
           disable-scroll = true;
@@ -169,13 +169,6 @@
             critical = 80;
           };
         };
-
-        disk =
-          {
-            format = "{icon} {used}/{free}";
-            interval = 30;
-            format-icons = [ "" ];
-          };
 
         network = {
           format-ethernet = "{icon} {bandwidthDownBits}";
