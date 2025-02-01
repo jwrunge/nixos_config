@@ -173,6 +173,7 @@
         disk =
           {
             format = "{icon} {used}/{free}";
+            interval = 30;
             format-icons = [ "" ];
           };
 
