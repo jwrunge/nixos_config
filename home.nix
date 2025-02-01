@@ -116,6 +116,7 @@
     };
   };
 
+  # add comment to test git ssh login
   programs.waybar = {
     enable = true;
     systemd.enable = true;
