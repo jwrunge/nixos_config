@@ -71,14 +71,6 @@
     hostName = "nixos";
     nftables.enable = true;
     networkmanager.enable = true;
-    firewall = {
-      enable = true;
-      allowedTCPPorts = [ 47984 47989 47990 48010 ];
-      allowedUDPPortRanges = [
-        { from = 47998; to = 48000; }
-        { from = 8000; to = 8010; }
-      ];
-    };
   };
 
   # Set your time zone.
@@ -121,7 +113,7 @@
 
   stylix = {
     enable = true;
-    image = ./wallpaper3.png;
+    image = ./wallpaper2.png;
     polarity = "dark";
     base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
     homeManagerIntegration.followSystem = true;

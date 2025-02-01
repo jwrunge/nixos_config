@@ -29,7 +29,6 @@
     ripgrep # recursive regex search
     jq # JSON processor
     fzf # fuzzy finder
-    nix-output-monitor # `nom` - replace `nix` with more logging
     htop # better btop
     iotop # io monitoring
     iftop # net monitoring
@@ -75,6 +74,10 @@
 
     settings = {
       "$mod" = "SUPER";
+      misc = {
+        disable_hyprland_logo = true;
+        disable_splash_rendering = true;
+      };
       general = {
         gaps_in = 4;
         gaps_out = 4;
@@ -87,7 +90,7 @@
         rounding = 5;
       };
       workspace = [
-        "w[1], gapsout:0, gapsin:0, bordersize:0, decorate:false"
+        "w[tv1], gapsout:0, gapsin:0, bordersize:0, decorate:false"
       ];
       bind = [
         "$mod, T, exec, ghostty"
@@ -128,7 +131,7 @@
         spacing = 5;
         modules-left = [ "hyprland/workspaces" ];
         modules-center = [ "hyprland/window" ];
-        modules-right = [ "cpu" "memory" "network" "pulseaudio" "clock" ];
+        modules-right = [ "cpu" "custom/gpu-usage" "memory" "disk" "network" "pulseaudio" "clock" ];
 
         "hyprland/workspaces" = {
           disable-scroll = true;
@@ -199,6 +202,8 @@
     settings = {
       background = "black";
       "background-opacity" = 0.7;
+      command = "zellij attach MAIN -c";
+      "window-decoration" = false;
     };
   };
 
@@ -305,24 +310,24 @@
   programs.nushell = {
     enable = true;
 
-    configFile.text = ''
-      # zellij
-      def start_zellij [] {
-        if 'ZELLIJ' not-in ($env | columns) {
-          if 'ZELLIJ_AUTO_ATTACH' in ($env | columns) and $env.ZELLIJ_AUTO_ATTACH == 'true' {
-            zellij attach -c
-          } else {
-            zellij
-          }
+    # configFile.text = ''
+    #   # zellij
+    #   def start_zellij [] {
+    #     if 'ZELLIJ' not-in ($env | columns) {
+    #       if 'ZELLIJ_AUTO_ATTACH' in ($env | columns) and $env.ZELLIJ_AUTO_ATTACH == 'true' {
+    #         zellij attach -c
+    #       } else {
+    #         zellij
+    #       }
 
-          if 'ZELLIJ_AUTO_EXIT' in ($env | columns) and $env.ZELLIJ_AUTO_EXIT == 'true' {
-            exit
-          }
-        }
-      }
+    #       if 'ZELLIJ_AUTO_EXIT' in ($env | columns) and $env.ZELLIJ_AUTO_EXIT == 'true' {
+    #         exit
+    #       }
+    #     }
+    #   }
 
-      start_zellij
-    '';
+    #   start_zellij
+    # '';
 
     extraConfig = ''
       $env.config = {
@@ -343,10 +348,6 @@
       $env.PATH = ($env.PATH | split row (char esep) | prepend /home/jwr/.apps | append /usr/bin/env)
     '';
   };
-
-  #carapace.enable = true;
-  #carapace.enableNushellIntegration = true;
-
 
   home.stateVersion = "24.11";
 
