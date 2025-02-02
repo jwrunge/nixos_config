@@ -197,8 +197,8 @@
         layer = "top";
         spacing = 5;
         modules-left = ["hyprland/workspaces"];
-        modules-center = ["hyprland/window"];
-        modules-right = ["cpu" "custom/igpu-usage" "custom/gpu-usage" "memory" "disk" "network" "pulseaudio" "clock"];
+        modules-center = ["disk"];
+        modules-right = ["cpu" "custom/igpu-usage" "custom/gpu-usage" "memory" "network" "pulseaudio" "clock"];
 
         "hyprland/workspaces" = {
           disable-scroll = true;
