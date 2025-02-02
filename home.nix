@@ -1,21 +1,85 @@
-{ pkgs, lib, ... }:
 {
+  pkgs,
+  lib,
+  ...
+}: {
   home.username = "jwr";
   home.homeDirectory = "/home/jwr";
 
-  fonts.fontconfig.enable = true;
+  fonts = {
+    fontconfig.enable = true;
+  };
 
   home.packages = with pkgs; [
-    #fonts
-    fira-code
-    fira-code-symbols
-    font-awesome
-    liberation_ttf
-    mplus-outline-fonts.githubRelease
-    nerdfonts
-    noto-fonts
-    noto-fonts-emoji
-    proggyfonts
+    # Fonts
+    # nerd-fonts.0xproto
+    nerd-fonts._3270
+    nerd-fonts.agave
+    nerd-fonts.anonymice
+    nerd-fonts.arimo
+    nerd-fonts.aurulent-sans-mono
+    nerd-fonts.bigblue-terminal
+    nerd-fonts.bitstream-vera-sans-mono
+    nerd-fonts.blex-mono
+    nerd-fonts.caskaydia-cove
+    nerd-fonts.caskaydia-mono
+    nerd-fonts.code-new-roman
+    nerd-fonts.comic-shanns-mono
+    nerd-fonts.commit-mono
+    nerd-fonts.cousine
+    nerd-fonts.d2coding
+    nerd-fonts.daddy-time-mono
+    nerd-fonts.departure-mono
+    nerd-fonts.dejavu-sans-mono
+    nerd-fonts.droid-sans-mono
+    nerd-fonts.envy-code-r
+    nerd-fonts.fantasque-sans-mono
+    nerd-fonts.fira-code
+    nerd-fonts.fira-mono
+    nerd-fonts.geist-mono
+    nerd-fonts.go-mono
+    nerd-fonts.gohufont
+    nerd-fonts.hack
+    nerd-fonts.hasklug
+    nerd-fonts.heavy-data
+    nerd-fonts.hurmit
+    nerd-fonts.im-writing
+    nerd-fonts.inconsolata
+    nerd-fonts.inconsolata-go
+    nerd-fonts.inconsolata-lgc
+    nerd-fonts.intone-mono
+    nerd-fonts.iosevka
+    nerd-fonts.iosevka-term
+    nerd-fonts.iosevka-term-slab
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.lekton
+    nerd-fonts.liberation
+    nerd-fonts.lilex
+    nerd-fonts.martian-mono
+    nerd-fonts.meslo-lg
+    nerd-fonts.monaspace
+    nerd-fonts.monofur
+    nerd-fonts.monoid
+    nerd-fonts.mononoki
+    nerd-fonts.mplus
+    nerd-fonts.noto
+    nerd-fonts.open-dyslexic
+    nerd-fonts.overpass
+    nerd-fonts.profont
+    nerd-fonts.proggy-clean-tt
+    nerd-fonts.recursive-mono
+    nerd-fonts.roboto-mono
+    nerd-fonts.shure-tech-mono
+    nerd-fonts.sauce-code-pro
+    nerd-fonts.space-mono
+    nerd-fonts.symbols-only
+    nerd-fonts.terminess-ttf
+    nerd-fonts.tinos
+    nerd-fonts.ubuntu
+    nerd-fonts.ubuntu-mono
+    nerd-fonts.ubuntu-sans
+    nerd-fonts.victor-mono
+    nerd-fonts.zed-mono
 
     neofetch
     rancher
@@ -50,14 +114,14 @@
     chromium
 
     # helix tools
-    nixpkgs-fmt
-    nil
+    alejandra
     nixd
 
     godot_4
     logiops
 
     # js
+    eslint
     nodejs_23
     typescript
     typescript-language-server
@@ -93,30 +157,31 @@
       workspace = [
         "w[tv1], gapsout:0, gapsin:0, bordersize:0, decorate:false"
       ];
-      bind = [
-        "$mod, T, exec, ghostty"
-        "$mod, B, exec, chromium"
-        "$mod, SPACE, exec, wofi --show=drun"
-        "$mod, Q, killactive"
-        "$mod, TAB, cyclenext"
-        "$mod, DELETE, exec, hyprctl dispatch exit"
-        ", Print, exec, grimblast copy area"
-      ]
-      ++ (
-        builtins.concatLists (builtins.genList
-          (i:
-            let ws = i + 1;
-            in [
-              "$mod, code:1${toString i}, workspace, ${toString ws}"
-              "$mod SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
-            ]
-          )
-          9)
-      );
+      bind =
+        [
+          "$mod, T, exec, ghostty"
+          "$mod, B, exec, chromium"
+          "$mod, SPACE, exec, wofi --show=drun"
+          "$mod, Q, killactive"
+          "$mod, TAB, cyclenext"
+          "$mod, DELETE, exec, hyprctl dispatch exit"
+          ", Print, exec, grimblast copy area"
+        ]
+        ++ (
+          builtins.concatLists (builtins.genList
+            (
+              i: let
+                ws = i + 1;
+              in [
+                "$mod, code:1${toString i}, workspace, ${toString ws}"
+                "$mod SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
+              ]
+            )
+            9)
+        );
     };
   };
 
-  # add comment to test git ssh login
   programs.waybar = {
     enable = true;
     systemd.enable = true;
@@ -131,9 +196,9 @@
       mainBar = {
         layer = "top";
         spacing = 5;
-        modules-left = [ "hyprland/workspaces" ];
-        modules-center = [ "hyprland/window" ];
-        modules-right = [ "cpu" "custom/gpu-usage" "memory" "network" "pulseaudio" "clock" ];
+        modules-left = ["hyprland/workspaces"];
+        modules-center = ["hyprland/window"];
+        modules-right = ["cpu" "custom/gpu-usage" "memory" "network" "pulseaudio" "clock"];
 
         "hyprland/workspaces" = {
           disable-scroll = true;
@@ -148,7 +213,7 @@
         cpu = {
           format = "{icon} {usage}%";
           interval = 2;
-          format-icons = [ "" ];
+          format-icons = [""];
 
           states = {
             critical = 90;
@@ -159,13 +224,13 @@
           exec = "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits";
           format = "{icon} {}%";
           interval = 2;
-          format-icons = [ "󱎓" ];
+          format-icons = ["󱎓"];
         };
 
         memory = {
           format = "{icon} {percentage}%";
           interval = 2;
-          format-icons = [ "" ];
+          format-icons = [""];
 
           states = {
             critical = 80;
@@ -176,7 +241,7 @@
           format-ethernet = "{icon} {bandwidthDownBits}";
           interval = 5;
           tooltip = false;
-          format-icons = [ "" ];
+          format-icons = [""];
         };
 
         pulseaudio = {
@@ -187,7 +252,7 @@
           nospacing = 1;
           on-click = "pavucontrol";
           tooltip = false;
-          format-icons = [ "" "󰂰" ];
+          format-icons = ["" "󰂰"];
         };
       };
     };
@@ -238,65 +303,74 @@
     };
     languages = {
       language-server = {
-        typescript-language-server = with pkgs.nodePackages; {
-          command = "${typescript-language-server}/bin/typescript-language-server";
-          args = [ "--stdio" "--tsserver-path=${typescript}/lib/node_modules/typescript/lib" ];
+        ts = {
+          command = "${pkgs.typescript-language-server}/bin/typescript-language-server";
+          args = ["--stdio" "--tsserver-path=${pkgs.typescript}/lib/node_modules/typescript/lib"];
         };
 
         eslint = {
-          command = "vscode-eslint-language-server";
-          args = [ "--stdio" ];
+          command = "${pkgs.eslint}/bin/vscode-eslint-language-server";
+          args = ["--stdio"];
           config = {
             codeActionsOnSave = {
               mode = "all";
               "source.fixAll.eslint" = true;
             };
-            format = {
-              enable = true;
-            };
+            # format = {
+            #   enable = true;
+            # };
             nodePath = "";
             quiet = false;
-            rulesCustomizations = [ ];
+            rulesCustomizations = [];
             run = "onType";
             validate = "on";
-            experimental = { };
+            experimental = {};
             problems = {
               shortenToSingleLine = false;
             };
             codeAction = {
-              disableRuleComment = { enable = true; location = "separateLine"; };
-              showDocumentation = { enable = false; };
+              disableRuleComment = {
+                enable = true;
+                location = "separateLine";
+              };
+              showDocumentation = {enable = false;};
             };
           };
         };
 
-        nil = {
-          command = "nil";
-          config.nil = {
-            formatting.command = [ "${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt" ];
+        nixd = {
+          command = "nixd";
+          filetypes = ["nix"];
+          config.nixd = {
+            formatting.command = ["${pkgs.alejandra}/bin/alejandra"];
             nix.flake.autoEvalInputs = true;
           };
         };
       };
 
-
-      language = [{
-        name = "nix";
-        auto-format = true;
-        file-types = [ "nix" ];
-        indent = { tab-width = 2; unit = " "; };
-        formatter = { command = "nixpkgs-fmt"; };
-        language-servers = [ "nil" ];
-      }
+      language = [
+        {
+          name = "nix";
+          auto-format = true;
+          file-types = ["nix"];
+          indent = {
+            tab-width = 2;
+            unit = " ";
+          };
+          formatter = {command = "nixpkgs-fmt";};
+          language-servers = ["nixd"];
+        }
         {
           name = "typescript";
-          language-servers = [ "typescript-language-server" "eslint" "emmet-ls" ];
+          language-servers = ["ts" "eslint" "emmet-ls"];
+          file-types = ["ts" "tsx"];
           formatter = {
             command = "prettierd";
-            args = [ "." "--write" ];
+            args = ["." "--write"];
           };
           auto-format = true;
-        }];
+        }
+      ];
     };
   };
 
@@ -314,10 +388,10 @@
           quick: true		# false prevents auto-selecting completions
           partial: true		# false prevents partial filling of prompt
           algorithm: fuzzy	# prefix or fuzzy
-          
+
           external: {
             enable: true 	#false prevents nushell from looking into $env.PATH
-            # max_results: 100	
+            # max_results: 100
           }
         }
       }

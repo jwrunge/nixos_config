@@ -1,15 +1,15 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-
-{ config, pkgs, ... }:
-
 {
-  imports =
-    [
-      # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  config,
+  pkgs,
+  ...
+}: {
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -40,19 +40,16 @@
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
-
   };
 
   services.blueman.enable = true;
-  services.xserver.videoDrivers = [ "nvidia" ];
-  services.sunshine =
-    {
-      enable = true;
-      autoStart = true;
-      capSysAdmin = true;
-      openFirewall = true;
-    };
-
+  services.xserver.videoDrivers = ["nvidia"];
+  services.sunshine = {
+    enable = true;
+    autoStart = true;
+    capSysAdmin = true;
+    openFirewall = true;
+  };
   # security.wrappers.sunshine = {
   #   owner = "root";
   #   group = "root";
@@ -64,7 +61,7 @@
   services.avahi.publish.userServices = true;
 
   # Enable flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = ["nix-command" "flakes"];
 
   # Networking
   networking = {
@@ -87,7 +84,7 @@
   users.defaultUserShell = pkgs.nushell;
   users.users.jwr = {
     isNormalUser = true;
-    extraGroups = [ "networkmanager" "wheel" ]; # Enable ‘sudo’ for the user.
+    extraGroups = ["networkmanager" "wheel"]; # Enable ‘sudo’ for the user.
     home = "/home/jwr";
     shell = pkgs.nushell;
     packages = with pkgs; [
@@ -140,4 +137,3 @@
   # Do NOT change this value
   system.stateVersion = "24.11"; # Did you read the comment?
 }
-
