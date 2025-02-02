@@ -43,6 +43,8 @@
     enable32Bit = true;
   };
 
+  services.displayManager.sddm.enable = true;
+  services.displayManager.sddm.wayland.enable = true;
   services.blueman.enable = true;
   services.xserver.videoDrivers = ["nvidia"];
   services.sunshine = {
@@ -50,13 +52,25 @@
     autoStart = true;
     capSysAdmin = true;
     openFirewall = true;
+    applications = {
+      env = {
+        PATH = "$(PATH):$(HOME)/.local/bin";
+      };
+      apps = [
+        {
+          name = "Desktop";
+          # prep-cmd = [
+          #   {
+          #     do = "${pkgs.kdePackages.libkscreen}/bin/kscreen-doctor output.DP-4.mode.2560x1440@144";
+          #     undo = "${pkgs.kdePackages.libkscreen}/bin/kscreen-doctor output.DP-4.mode.3440x1440@144";
+          #   }
+          # ];
+          # exclude-global-prep-cmd = "false";
+          auto-detach = "true";
+        }
+      ];
+    };
   };
-  # security.wrappers.sunshine = {
-  #   owner = "root";
-  #   group = "root";
-  #   capabilities = "cap_sys_admin+p";
-  #   source = "${pkgs.sunshine}/bin/sunshine";
-  # };
 
   services.avahi.publish.enable = true;
   services.avahi.publish.userServices = true;
