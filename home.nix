@@ -197,8 +197,8 @@
         layer = "top";
         spacing = 5;
         modules-left = ["hyprland/workspaces"];
-        modules-center = ["disk"];
-        modules-right = ["cpu" "custom/igpu-usage" "custom/gpu-usage" "memory" "network" "pulseaudio" "clock"];
+        modules-center = ["hyprland/window"];
+        modules-right = ["cpu" "custom/igpu-usage" "custom/gpu-usage" "memory" "disk" "network" "pulseaudio" "clock"];
 
         "hyprland/workspaces" = {
           disable-scroll = true;
@@ -237,7 +237,7 @@
 
         disk = {
           interval = 30;
-          format = "  free} | {percentage_free}%";
+          format = "  {free} | {percentage_free}%";
           unit = "GB";
         };
 
