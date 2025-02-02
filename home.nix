@@ -198,7 +198,7 @@
         spacing = 5;
         modules-left = ["hyprland/workspaces"];
         modules-center = ["hyprland/window"];
-        modules-right = ["cpu" "custom/gpu-usage" "memory" "network" "pulseaudio" "clock"];
+        modules-right = ["cpu" "custom/igpu-usage" "custom/gpu-usage" "memory" "network" "pulseaudio" "clock"];
 
         "hyprland/workspaces" = {
           disable-scroll = true;
@@ -218,6 +218,14 @@
           states = {
             critical = 90;
           };
+        };
+
+        "custom/igpu-usage" = {
+          exec = "cat /sys/class/hwmon/hwmon4/device/gpu_busy_percent";
+          format = "{icon} {}%";
+          return-type = "";
+          interval = 1;
+          format-icons = ["󰔶"];
         };
 
         "custom/gpu-usage" = {

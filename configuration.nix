@@ -19,6 +19,7 @@
   hardware.bluetooth.powerOnBoot = true;
   hardware.nvidia = {
     modesetting.enable = true;
+    powerManagement.finegrained = true;
     open = false;
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.beta;
@@ -99,6 +100,7 @@
     mangohud
     protonup
     nftables
+    wlr-randr
   ];
 
   environment.sessionVariables = {
