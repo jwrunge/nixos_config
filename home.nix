@@ -196,9 +196,9 @@
       mainBar = {
         layer = "top";
         spacing = 5;
-        modules-left = ["hyprland/workspaces"];
+        modules-left = ["hyprland/workspaces";
         modules-center = ["hyprland/window"];
-        modules-right = ["cpu" "custom/igpu-usage" "custom/gpu-usage" "memory" "network" "pulseaudio" "clock"];
+        modules-right = ["cpu" "custom/igpu-usage" "custom/gpu-usage" "memory" "disk" "network" "pulseaudio" "clock"];
 
         "hyprland/workspaces" = {
           disable-scroll = true;
@@ -233,6 +233,12 @@
           format = "{icon} {}%";
           interval = 2;
           format-icons = ["󱎓"];
+        };
+
+        disk = {
+          interval = 30;
+          format = "  free} | {percentage_free}%";
+          unit = "GB";
         };
 
         memory = {
