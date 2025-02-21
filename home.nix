@@ -127,7 +127,7 @@
     typescript-language-server
     vscode-langservers-extracted
     emmet-ls
-    prettierd
+    nodePackages.prettier
   ];
 
   programs.wofi.enable = true;
@@ -317,22 +317,26 @@
     };
     languages = {
       language-server = {
+        gpt = {
+          command = "${pkgs.helix-gpt}/bin/helix-gpt";
+        };
+
         ts = {
           command = "${pkgs.typescript-language-server}/bin/typescript-language-server";
           args = ["--stdio" "--tsserver-path=${pkgs.typescript}/lib/node_modules/typescript/lib"];
         };
 
         eslint = {
-          command = "${pkgs.eslint}/bin/vscode-eslint-language-server";
+          command = "${pkgs.eslint}/bin/eslint";
           args = ["--stdio"];
           config = {
             codeActionsOnSave = {
               mode = "all";
-              "source.fixAll.eslint" = true;
+              source.fixAll.eslint = true;
             };
-            # format = {
-            #   enable = true;
-            # };
+            format = {
+              enable = true;
+            };
             nodePath = "";
             quiet = false;
             rulesCustomizations = [];
@@ -347,9 +351,10 @@
                 enable = true;
                 location = "separateLine";
               };
-              showDocumentation = {enable = false;};
+              showDocumentation = {enable = true;};
             };
           };
+          workingDirectory = {mode = "location";};
         };
 
         nixd = {
@@ -376,11 +381,11 @@
         }
         {
           name = "typescript";
-          language-servers = ["ts" "eslint" "emmet-ls"];
-          file-types = ["ts" "tsx"];
+          language-servers = ["ts" "eslint" "gpt"];
+          file-types = ["ts" "tsx" "mts" "cts"];
           formatter = {
-            command = "prettierd";
-            args = ["." "--write"];
+            command = "${pkgs.nodePackages.prettier}/bin/prettier";
+            args = ["--stdin-filepath" "--parser" "typescript"];
           };
           auto-format = true;
         }
