@@ -1,7 +1,6 @@
-{
-  pkgs,
-  lib,
-  ...
+{ pkgs
+, lib
+, ...
 }: {
   home.username = "jwr";
   home.homeDirectory = "/home/jwr";
@@ -170,9 +169,11 @@
         ++ (
           builtins.concatLists (builtins.genList
             (
-              i: let
+              i:
+              let
                 ws = i + 1;
-              in [
+              in
+              [
                 "$mod, code:1${toString i}, workspace, ${toString ws}"
                 "$mod SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
               ]
@@ -196,9 +197,9 @@
       mainBar = {
         layer = "top";
         spacing = 5;
-        modules-left = ["hyprland/workspaces"];
-        modules-center = ["hyprland/window"];
-        modules-right = ["cpu" "custom/igpu-usage" "custom/gpu-usage" "memory" "disk" "network" "pulseaudio" "clock"];
+        modules-left = [ "hyprland/workspaces" ];
+        modules-center = [ "hyprland/window" ];
+        modules-right = [ "cpu" "custom/igpu-usage" "custom/gpu-usage" "memory" "disk" "network" "pulseaudio" "clock" ];
 
         "hyprland/workspaces" = {
           disable-scroll = true;
@@ -213,7 +214,7 @@
         cpu = {
           format = "{icon} {usage}%";
           interval = 2;
-          format-icons = [""];
+          format-icons = [ "" ];
 
           states = {
             critical = 90;
@@ -225,14 +226,14 @@
           format = "{icon} {}%";
           return-type = "";
           interval = 1;
-          format-icons = ["󰔶"];
+          format-icons = [ "󰔶" ];
         };
 
         "custom/gpu-usage" = {
           exec = "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits";
           format = "{icon} {}%";
           interval = 2;
-          format-icons = ["󱎓"];
+          format-icons = [ "󱎓" ];
         };
 
         disk = {
@@ -244,7 +245,7 @@
         memory = {
           format = "{icon} {percentage}%";
           interval = 2;
-          format-icons = [""];
+          format-icons = [ "" ];
 
           states = {
             critical = 80;
@@ -255,7 +256,7 @@
           format-ethernet = "{icon} {bandwidthDownBits}";
           interval = 5;
           tooltip = false;
-          format-icons = [""];
+          format-icons = [ "" ];
         };
 
         pulseaudio = {
@@ -266,7 +267,7 @@
           nospacing = 1;
           on-click = "pavucontrol";
           tooltip = false;
-          format-icons = ["" "󰂰"];
+          format-icons = [ "" "󰂰" ];
         };
       };
     };
@@ -323,12 +324,12 @@
 
         ts = {
           command = "${pkgs.typescript-language-server}/bin/typescript-language-server";
-          args = ["--stdio" "--tsserver-path=${pkgs.typescript}/lib/node_modules/typescript/lib"];
+          args = [ "--stdio" "--tsserver-path=${pkgs.typescript}/lib/node_modules/typescript/lib" ];
         };
 
         eslint = {
           command = "${pkgs.eslint}/bin/eslint";
-          args = ["--stdio"];
+          args = [ "--stdio" ];
           config = {
             codeActionsOnSave = {
               mode = "all";
@@ -339,10 +340,10 @@
             };
             nodePath = "";
             quiet = false;
-            rulesCustomizations = [];
+            rulesCustomizations = [ ];
             run = "onType";
             validate = "on";
-            experimental = {};
+            experimental = { };
             problems = {
               shortenToSingleLine = false;
             };
@@ -351,17 +352,17 @@
                 enable = true;
                 location = "separateLine";
               };
-              showDocumentation = {enable = true;};
+              showDocumentation = { enable = true; };
             };
           };
-          workingDirectory = {mode = "location";};
+          workingDirectory = { mode = "location"; };
         };
 
         nixd = {
           command = "nixd";
-          filetypes = ["nix"];
+          filetypes = [ "nix" ];
           config.nixd = {
-            formatting.command = ["${pkgs.alejandra}/bin/alejandra"];
+            formatting.command = [ "${pkgs.alejandra}/bin/alejandra" ];
             nix.flake.autoEvalInputs = true;
           };
         };
@@ -371,21 +372,21 @@
         {
           name = "nix";
           auto-format = true;
-          file-types = ["nix"];
+          file-types = [ "nix" ];
           indent = {
             tab-width = 2;
             unit = " ";
           };
-          formatter = {command = "nixpkgs-fmt";};
-          language-servers = ["nixd"];
+          formatter = { command = "${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt"; };
+          language-servers = [ "nixd" ];
         }
         {
           name = "typescript";
-          language-servers = ["ts" "eslint" "gpt"];
-          file-types = ["ts" "tsx" "mts" "cts"];
+          language-servers = [ "ts" "eslint" ];
+          file-types = [ "ts" "tsx" "mts" "cts" ];
           formatter = {
             command = "${pkgs.nodePackages.prettier}/bin/prettier";
-            args = ["--stdin-filepath" "--parser" "typescript"];
+            args = [ "--stdin-filepath" "--parser" "typescript" ];
           };
           auto-format = true;
         }
