@@ -324,7 +324,11 @@
 
         ts = {
           command = "${pkgs.typescript-language-server}/bin/typescript-language-server";
-          args = [ "--stdio" "--tsserver-path=${pkgs.typescript}/lib/node_modules/typescript/lib" ];
+          args = [ "--stdio" ];
+          tsserver = {
+            path = "./node_modules/typescript/lib";
+            fallbackPath = "${pkgs.typescript}/lib/node_modules/typescript/lib";
+          };
         };
 
         eslint = {
@@ -382,7 +386,7 @@
         }
         {
           name = "typescript";
-          language-servers = [ "ts" "eslint" ];
+          language-servers = [ "ts" ];
           file-types = [ "ts" "tsx" "mts" "cts" ];
           formatter = {
             command = "${pkgs.nodePackages.prettier}/bin/prettier";
