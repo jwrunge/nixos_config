@@ -386,7 +386,7 @@
         }
         {
           name = "typescript";
-          language-servers = [ "ts" ];
+          language-servers = [ "ts" "eslint" "gpt" ];
           file-types = [ "ts" "tsx" "mts" "cts" ];
           formatter = {
             command = "${pkgs.nodePackages.prettier}/bin/prettier";
