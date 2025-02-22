@@ -127,6 +127,12 @@
     vscode-langservers-extracted
     emmet-ls
     nodePackages.prettier
+
+    # other
+    nimlangserver
+    zls
+    zig
+    lldb
   ];
 
   programs.wofi.enable = true;
@@ -331,8 +337,10 @@
           };
         };
 
+        emmet-ls = { command = "${pkgs.emmet-ls}/bin/emmet-ls"; args = [ "--stdio" ]; };
+
         eslint = {
-          command = "${pkgs.eslint}/bin/eslint";
+          command = "${pkgs.vscode-langservers-extracted}/bin/vscode-eslint-language-server";
           args = [ "--stdio" ];
           config = {
             codeActionsOnSave = {
@@ -362,13 +370,25 @@
           workingDirectory = { mode = "location"; };
         };
 
+        json = {
+          command = "${pkgs.vscode-langservers-extracted}/bin/vscode-json-language-server";
+        };
+
+        css = {
+          command = "${pkgs.vscode-langservers-extracted}/bin/vscode-css-language-server";
+        };
+
         nixd = {
-          command = "nixd";
+          command = "${pkgs.nixd}/bin/nixd";
           filetypes = [ "nix" ];
           config.nixd = {
             formatting.command = [ "${pkgs.alejandra}/bin/alejandra" ];
             nix.flake.autoEvalInputs = true;
           };
+        };
+
+        zig = {
+          command = "${pkgs.zls}/bin/zls";
         };
       };
 
@@ -382,17 +402,55 @@
             unit = " ";
           };
           formatter = { command = "${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt"; };
-          language-servers = [ "nixd" ];
+          language-servers = [ "nixd" "gpt" ];
         }
         {
           name = "typescript";
-          language-servers = [ "ts" "eslint" "gpt" ];
+          language-servers = [ "ts" "emmet" "eslint" "gpt" ];
           file-types = [ "ts" "tsx" "mts" "cts" ];
           formatter = {
             command = "${pkgs.nodePackages.prettier}/bin/prettier";
             args = [ "--stdin-filepath" "--parser" "typescript" ];
           };
           auto-format = true;
+        }
+        {
+          name = "javascript";
+          language-servers = [ "ts" "emmet" "eslint" "gpt" ];
+          file-types = [ "ts" "tsx" "mts" "cts" ];
+          formatter = {
+            command = "${pkgs.nodePackages.prettier}/bin/prettier";
+            args = [ "--stdin-filepath" "--parser" "javascript" ];
+          };
+          auto-format = true;
+        }
+        {
+          name = "json";
+          formatter = { command = "prettier"; args = [ "--parser" "json" "gpt" ]; };
+          auto-format = true;
+        }
+        {
+          name = "html";
+          language-servers = [ "vscode-html-language-server" "emmet-ls" "gpt" ];
+          formatter =
+            {
+              command = "prettier";
+              args = [ "--parser" "html" ];
+            };
+          auto-format = true;
+        }
+        {
+          name = "css";
+          language-servers = [ "vscode-css-language-server" "emmet-ls" "gpt" ];
+          formatter = {
+            command = "prettier";
+            args = [ "--parser" "css" ];
+          };
+          auto-format = true;
+        }
+        {
+          name = "zig";
+          language-servers = [ "zig" "gpt" ];
         }
       ];
     };
