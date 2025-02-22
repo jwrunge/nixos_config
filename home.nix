@@ -134,6 +134,7 @@
     zls
     zig
     lldb
+    clang
   ];
 
   programs.wofi.enable = true;
