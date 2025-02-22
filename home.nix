@@ -417,7 +417,7 @@
         {
           name = "javascript";
           language-servers = [ "ts" "emmet" "eslint" "gpt" ];
-          file-types = [ "ts" "tsx" "mts" "cts" ];
+          file-types = [ "js" "jsx" "mjs" "cjs" ];
           formatter = {
             command = "${pkgs.nodePackages.prettier}/bin/prettier";
             args = [ "--stdin-filepath" "--parser" "javascript" ];
