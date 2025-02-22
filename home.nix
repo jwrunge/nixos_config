@@ -129,6 +129,7 @@
     nodePackages.prettier
 
     # other
+    nim
     nimlangserver
     zls
     zig
