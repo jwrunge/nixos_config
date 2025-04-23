@@ -120,13 +120,12 @@
     logiops
 
     # js
-    eslint
+    biome
     nodejs_23
     typescript
     typescript-language-server
     vscode-langservers-extracted
     emmet-ls
-    nodePackages.prettier
 
     # other
     nim
@@ -341,6 +340,12 @@
 
         emmet-ls = { command = "${pkgs.emmet-ls}/bin/emmet-ls"; args = [ "--stdio" ]; };
 
+        biome = {
+          command = "${pkgs.biome}/bin/biome";
+          args = [ "lsp-proxy" ];
+          "display-messages" = true;
+        };
+
         eslint = {
           command = "${pkgs.vscode-langservers-extracted}/bin/vscode-eslint-language-server";
           args = [ "--stdio" ];
@@ -408,23 +413,45 @@
         }
         {
           name = "typescript";
-          language-servers = [ "ts" "emmet" "eslint" "gpt" ];
+          language-servers = [
+            {
+              name = "ts";
+              "except-features" = [ "format" ];
+            }
+            "emmet"
+            "biome"
+            "gpt"
+          ];
           file-types = [ "ts" "tsx" "mts" "cts" ];
-          formatter = {
-            command = "${pkgs.nodePackages.prettier}/bin/prettier";
-            args = [ "--stdin-filepath" "--parser" "typescript" ];
-          };
           auto-format = true;
+          formatter = {
+            command = "${pkgs.biome}/bin/biome";
+            args = [
+              "format"
+              "--stdin-file-path=prd.js" # no idea why a file name is needed
+            ];
+          };
         }
         {
           name = "javascript";
-          language-servers = [ "ts" "emmet" "eslint" "gpt" ];
+          language-servers = [
+            {
+              name = "ts";
+              "except-features" = [ "format" ];
+            }
+            "emmet"
+            "biome"
+            "gpt"
+          ];
           file-types = [ "js" "jsx" "mjs" "cjs" ];
-          formatter = {
-            command = "${pkgs.nodePackages.prettier}/bin/prettier";
-            args = [ "--stdin-filepath" "--parser" "javascript" ];
-          };
           auto-format = true;
+          formatter = {
+            command = "${pkgs.biome}/bin/biome";
+            args = [
+              "format"
+              "--stdin-file-path=prd.js" # no idea why a file name is needed
+            ];
+          };
         }
         {
           name = "json";
